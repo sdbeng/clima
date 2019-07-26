@@ -1,2 +1,2 @@
 # clima
-check your weather around
+Dockerized django App to check the weather(clima).
