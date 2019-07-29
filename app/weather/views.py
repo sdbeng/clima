@@ -6,7 +6,7 @@ URL = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=
 
 
 def index(request):
-    city = 'Las Vegas'
+    city = 'San Diego'
     res = requests.get(URL.format(city))
     # print(res.text)
     json_response = res.json()
@@ -15,7 +15,7 @@ def index(request):
     # create a dict to retrieve the data
     city_data = {
         'city': city,
-        # 'temperature': json_response['main']['temp'],
+        'temperature': json_response['main']['temp'],
         'description': json_response['weather'][0]['description'],
         'icon': json_response['weather'][0]['icon'],
     }
