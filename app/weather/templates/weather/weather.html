@@ -14,7 +14,7 @@
         <div class="hero-body">
             <div class="container">
                 <h1 class="title">
-                    What's the weather like?
+                    What's the weather like in your city?
                 </h1>
             </div>
         </div>
@@ -47,16 +47,16 @@
                         <article class="media">
                             <div class="media-left">
                                 <figure class="image is-50x50">
-                                    <img src="http://openweathermap.org/img/w/10d.png" alt="Image">
+                                    <img src="http://openweathermap.org/img/w/{{ city_data.icon}}.png" alt="Image">
                                 </figure>
                             </div>
                             <div class="media-content">
                                 <div class="content">
                                     <p>
-                                        <span class="title">Las Vegas</span>
+                                        <span class="title">{{ city_data.city}}</span>
                                         <br>
-                                        <span class="subtitle">29° F</span>
-                                        <br> thunderstorm with heavy rain
+                                        <span class="subtitle">{{ city_data.temperature}}</span>
+                                        <br> {{ city_data.description}}
                                     </p>
                                 </div>
                             </div>
