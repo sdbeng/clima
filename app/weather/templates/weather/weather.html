@@ -1,21 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" />
+    <title>Climate Research-Django Project</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 </head>
 
 <body>
-    <section class="hero is-primary">
+    <section>
+        <nav class="navbar is-transparent">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="/">CLIMA
+      {% comment %} <img src="images/climate-res.png" alt="Climate Research study" width="112" height="28"> {% endcomment %}
+    </a>
+    <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+
+  <div id="navbarExampleTransparentExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item" href="/">
+        Home
+      </a>
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link" href="/">
+          Docs
+        </a>
+        <div class="navbar-dropdown is-boxed">
+          <a class="navbar-item" href="/">
+            Overview
+          </a>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="field is-grouped">
+          <p class="control">
+            <a class="bd-tw-button button" data-social-network="Twitter" data-social-action="tweet" data-social-target="/" target="_blank" href="https://twitter.com/sergb_appdev">
+              <span class="icon">
+                <i class="fab fa-twitter"></i>
+              </span>
+              <span>
+                Tweet
+              </span>
+            </a>
+          </p>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+    </section>
+    <section class="hero is-medium is-info is-bold">
         <div class="hero-body">
             <div class="container">
                 <h1 class="title">
-                    What's the weather like in your city?
+                    Local Climate Conditions- Research Study v1.1
                 </h1>
+                <h2 class="subtitle">
+                resource: openweathermap-api
+                </h2>
             </div>
         </div>
     </section>
@@ -43,25 +98,27 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-offset-4 is-4">
+                {% for ct in city_data %}
                     <div class="box">
                         <article class="media">
                             <div class="media-left">
                                 <figure class="image is-50x50">
-                                    <img src="http://openweathermap.org/img/w/{{ city_data.icon}}.png" alt="Image">
+                                    <img src="http://openweathermap.org/img/w/{{ ct.icon }}.png" alt="Image">
                                 </figure>
                             </div>
                             <div class="media-content">
                                 <div class="content">
                                     <p>
-                                        <span class="title">{{ city_data.city}}</span>
+                                        <span class="title">{{ ct.city}}</span>
                                         <br>
-                                        <span class="subtitle">{{ city_data.temperature}}</span>
-                                        <br> {{ city_data.description}}
+                                        <span class="subtitle">{{ ct.temperature}}</span>
+                                        <br> {{ ct.description}}
                                     </p>
                                 </div>
                             </div>
                         </article>
                     </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>

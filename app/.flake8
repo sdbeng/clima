@@ -5,4 +5,4 @@ exclude =
     manage.py,
     settings.py
 max-line-length = 82
-extend-ignore=F401,E261,E501
+extend-ignore=F401,E261,E501,W293,W291
