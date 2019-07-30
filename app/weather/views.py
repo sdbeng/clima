@@ -2,6 +2,7 @@ import requests
 from django.shortcuts import render
 from django.conf import settings
 from .models import City
+from .forms import CityForm
 
 
 def index(request):
@@ -9,6 +10,11 @@ def index(request):
     API_KEY = settings.API_KEY
     # print(f"LOG KEY {API_KEY}")
     URL = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid={}'
+
+    if request.method == 'POST':
+        print(request.POST)
+
+    form = CityForm()
 
     # print(f"LOG URL - {URL}")
     # res = requests.get(URL.format(city))
@@ -38,7 +44,7 @@ def index(request):
     # print(f"LOG dest_cities {dest_cities} ")
 
     # define context
-    context = {'city_data': dest_cities}
+    context = {'city_data': dest_cities, 'form': form}
 
     # return render(request, 'weather/weather.html')
     return render(request, 'weather/weather.html', context)
