@@ -6,25 +6,47 @@ from .forms import CityForm
 
 
 def index(request):
-    # city = 'San Diego'
     API_KEY = settings.API_KEY
     # print(f"LOG KEY {API_KEY}")
     URL = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid={}'
     # URL = 'http://api.openweathermap.org/data/2.5/weather?id=2172797&appid={}'
 
+    err_msg = ''
+    message = ''
+    message_class = ''
+
     if request.method == 'POST':
-        print(request.POST)
+        # print(request.POST)
         form = CityForm(request.POST)
-        form.save()
 
+        if form.is_valid():
+            new_city = form.cleaned_data['name']
+            # prevent duplicates
+            existing_city_count = City.objects.filter(name=new_city).count()
+
+            if existing_city_count == 0:
+                json_response = requests.get(URL.format(new_city, API_KEY)).json()
+                
+                if json_response['cod'] == 200:
+                    form.save()
+                else:
+                    err_msg = 'City does not exist in the world!'
+            else:
+                err_msg = 'City already exists in database!'
+        if err_msg:
+            # don't forget to add these props to the context
+            message = err_msg
+            message_class = 'is-danger'
+        else:
+            message = 'City added successfully'
+            message_class = 'is-success'
+
+    print(err_msg)
     form = CityForm()
-
-    # print(f"LOG URL - {URL}")
-    # res = requests.get(URL.format(city))
-    # res = requests.get(URL)
+    
     # print(res.text)
     # json_response = res.json()
-    # print(json_response)
+
     # iterate over the city_data to get temp from multiple cities
     # first, get all cities in database
     cities = City.objects.all()
@@ -51,7 +73,12 @@ def index(request):
     print(f"LOG dest_cities {dest_cities} ")
 
     # define context
-    context = {'city_data': dest_cities, 'form': form}
+    context = {
+        'city_data': dest_cities,
+        'form': form,
+        'message': message,
+        'message_class': message_class
+        }
 
     # return render(request, 'weather/weather.html')
     return render(request, 'weather/weather.html', context)
